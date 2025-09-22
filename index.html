@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR KYC™ - EmploymentKYC™ Right-to-Work Compliance</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
+    <style>
+        /* CSS RESET */
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; }
+        img { display: block; max-width: 100%; }
+
+        :root {
+            /* Calm, accessible palette */
+            --clr-bg: #f7f9fc;
+            --clr-surface: #ffffff;
+            --clr-surface-light: #f0f4f8;
+            --clr-primary: #0066ff;
+            --clr-primary-dark: #0047b3;
+            --clr-accent: #00aaff;
+            --clr-text: #1a1a1a;
+            --clr-text-muted: #4d4d4d;
+            --clr-border: #d0d9e2;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 32px;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        body {
+            background: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--clr-border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--clr-primary);
+            display: inline-block;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .btn-primary {
+            background: var(--clr-primary);
+            color: #ffffff;
+            border-radius: var(--radius);
+            padding: 0.9rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .3s ease;
+            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0, 242, 169, 0.4);
+        }
+        .btn-outline {
+            border: 2px solid var(--clr-primary);
+            color: var(--clr-primary);
+            border-radius: var(--radius);
+            padding: 0.9rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            background: transparent;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .btn-outline:hover {
+            background: var(--clr-primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            transition: transform .3s ease, box-shadow .3s ease;
+            color: var(--clr-text);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+        .pricing-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-xl);
+            transition: transform .3s ease, box-shadow .3s ease;
+            color: var(--clr-text);
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
+        }
+        .pricing-card.popular {
+            border-color: var(--clr-primary);
+            box-shadow: 0 0 0 2px var(--clr-primary);
+            background: #f0f7ff;
+        }
+        .text-muted { color: var(--clr-text-muted); }
+        .text-primary { color: var(--clr-primary); }
+        .text-accent { color: var(--clr-accent); }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg"></div>
+                    <span class="text-2xl font-bold text-gray-900">HR KYC™</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#features" class="text-gray-700 hover:text-gray-900 transition-colors font-medium">Features</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-gray-900 transition-colors font-medium">Pricing</a>
+                    <a href="#compliance" class="text-gray-700 hover:text-gray-900 transition-colors font-medium">Compliance</a>
+                    <button class="btn-primary">
+                        Start Now
+                    </button>
+                </div>
+                <button class="md:hidden text-gray-300">
+                    <i data-feather="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" style="animation: slideIn 0.8s ease-out;">
+                    <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">
+                        Employment KYC™ — 
+                        <span class="text-primary">Bullet-Proof Right-to-Work Compliance in Minutes</span>
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-10 leading-relaxed">
+                        One missed check can cost £20,000 per worker. Our AI-driven platform slashes onboarding time by 90 %, auto-archives tamper-proof evidence, and exports audit-ready packs in a single click—so you hire fast, stay compliant, and sleep soundly.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn-primary px-10 py-4 text-lg">
+                            Start with PAYG
+                        </button>
+                        <button class="btn-outline px-10 py-4 text-lg">
+                            View Subscriptions
+                        </button>
+                    </div>
+                </div>
+                <div class="relative" data-aos="fade-left">
+                    <div class="float-animation">
+                        <svg viewBox="0 0 400 400" class="w-full max-w-md mx-auto">
+                            <defs>
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#34d399;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="200" cy="200" r="150" fill="none" stroke="url(#grad1)" stroke-width="3" opacity="0.3"/>
+                            <circle cx="200" cy="200" r="100" fill="none" stroke="url(#grad1)" stroke-width="2" opacity="0.5"/>
+                            <circle cx="200" cy="200" r="50" fill="none" stroke="url(#grad1)" stroke-width="1" opacity="0.7"/>
+                            <path d="M150 200 L200 150 L250 200 L200 250 Z" fill="url(#grad1)" opacity="0.8"/>
+                            <circle cx="200" cy="200" r="20" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why HR KYC™ Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-center" data-aos="fade-up">
+                Why HR KYC™
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-feather="layers" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">One Dashboard, Zero Blind Spots</h3>
+                    <p class="text-gray-600">From passport scan to share-code validation—run every check in a single, lightning-fast flow. No tabs, no tools, no trouble.</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Your £20 k Safety Net</h3>
+                    <p class="text-gray-600">Home-office-grade checks + cryptographically sealed evidence = iron-clad defence against civil penalties and reputational ruin.</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-feather="database" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Tamper-Proof Vault, Instant Recall</h3>
+                    <p class="text-gray-600">Blockchain-stamped records live in UK-sovereign servers. Type a name—find every document, expiry date, and action history in 0.3 s.</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i data-feather="zap" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">From 20 min to 90 s</h3>
+                    <p class="text-gray-600">Hire before your competitors finish reading a CV. Auto-notify candidates, auto-verify documents, auto-archive—done.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-center" data-aos="fade-up">
+                ✨ Features
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">ID Verification</h3>
+                    </div>
+                    <p class="text-gray-600">Document + liveness verification for complete identity confirmation</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Phone & Email Verification</h3>
+                    </div>
+                    <p class="text-gray-600">Instant verification of contact details for reliable communication</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Right-to-Work Checks</h3>
+                    </div>
+                    <p class="text-gray-600">UK share code API integration for instant RTW verification</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Compliant Vault™</h3>
+                    </div>
+                    <p class="text-gray-600">Secure storage with retention controls and full audit trail</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Expiry Alerts</h3>
+                    </div>
+                    <p class="text-gray-600">Automated reminders for document renewals and compliance deadlines</p>
+                </div>
+                <div class="card p-8" data-aos="fade-up" data-aos-delay="600">
+                    <div class="flex items-center mb-4">
+                        <i data-feather="check-circle" class="w-6 h-6 text-blue-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Full-Text Search</h3>
+                    </div>
+                    <p class="text-gray-600">Instantly find any record across your entire Compliant Vault™</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-center" data-aos="fade-up">
+                💰 Pricing
+            </h2>
+            
+            <!-- PAYG Section -->
+            <div class="mb-20 flex justify-center" data-aos="fade-up">
+                <div class="pricing-card p-10 text-center">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">PAYG — No Strings</h3>
+                    <div class="text-6xl font-extrabold text-blue-600 mb-4">£39</div>
+                    <p class="text-gray-600 mb-6 text-lg">per complete candidate check</p>
+                    <p class="text-gray-700">AI ID scan, live-face match, phone & email validation, UK RTW share-code, vault record, and export-ready audit pack—no monthly tie-in.</p>
+                </div>
+            </div>
+
+            <!-- Subscription Plans -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="pricing-card p-8" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Starter</h3>
+                    <div class="text-3xl font-bold text-gray-900 mb-2">£299<span class="text-lg font-normal text-gray-600">/m</span></div>
+                    <ul class="space-y-3 text-gray-700 mb-6">
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>20 full checks/mo</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Equivalent to £15/check</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Smart expiry alerts</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Unlimited vault seats</li>
+                    </ul>
+                    <button class="w-full btn-primary">
+                        Start Free Trial
+                    </button>
+                </div>
+                <div class="pricing-card p-8 popular relative" data-aos="fade-up" data-aos-delay="200">
+                    <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">Popular</span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Growth</h3>
+                    <div class="text-3xl font-bold text-gray-900 mb-2">£799<span class="text-lg font-normal text-gray-600">/m</span></div>
+                    <ul class="space-y-3 text-gray-700 mb-6">
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>75 full checks/mo</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Equivalent to £10/check</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Multi-seat collaboration</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>One-click audit packs</li>
+                    </ul>
+                    <button class="w-full btn-primary">
+                        Start Free Trial
+                    </button>
+                </div>
+                <div class="pricing-card p-8" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Scale</h3>
+                    <div class="text-3xl font-bold text-gray-900 mb-2">£1,499<span class="text-lg font-normal text-gray-600">/m</span></div>
+                    <ul class="space-y-3 text-gray-700 mb-6">
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>200 full checks/mo</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Equivalent to £7.50/check</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>24 h priority support</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 text-blue-600 mr-2"></i>Advanced analytics & search</li>
+                    </ul>
+                    <button class="w-full btn-primary">
+                        Start Free Trial
+                    </button>
+                </div>
+                <div class="pricing-card p-8 bg-gradient-to-br from-emerald-500 to-emerald-400 text-black" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-xl font-bold mb-4">Enterprise</h3>
+                    <div class="text-3xl font-bold mb-2">Custom</div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 mr-2"></i>Unlimited checks</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 mr-2"></i>Full API & white-label</li>
+                        <li class="flex items-center"><i data-feather="check" class="w-4 h-4 mr-2"></i>Named CIPP/E compliance manager</li>
+                    </ul>
+                    <button class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors">
+                        Book Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coming Soon Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">🌟 Coming Soon</h2>
+                <div class="max-w-3xl mx-auto card p-8">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Digital Employee ID Cards™</h3>
+                    <ul class="text-left text-gray-700 space-y-3">
+                        <li class="flex items-start">
+                            <i data-feather="badge" class="w-5 h-5 text-emerald-400 mr-3 mt-0.5"></i>
+                            <span>Cryptographically signed digital badges—impossible to clone.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="credit-card" class="w-5 h-5 text-emerald-400 mr-3 mt-0.5"></i>
+                            <span>Physical smartcards with dynamic QR codes that update in real time.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compliance Section -->
+    <section id="compliance" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="section-title mb-8 text-gray-900">🔐 Compliance Assurance</h2>
+                    <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+                        HR KYC™ is built for GDPR and UK Home Office Right-to-Work compliance.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        EmploymentKYC™ protects your business with audit-ready evidence to defend against fines and enforcement.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-6" data-aos="fade-left">
+                    <div class="card p-6">
+                        <i data-feather="shield-check" class="w-12 h-12 text-blue-600 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2 text-gray-900">GDPR Compliant</h3>
+                        <p class="text-gray-600 text-sm">Full data protection compliance</p>
+                    </div>
+                    <div class="card p-6">
+                        <i data-feather="file-text" class="w-12 h-12 text-blue-600 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2 text-gray-900">UK Home Office</h3>
+                        <p class="text-gray-600 text-sm">Right-to-Work approved</p>
+                    </div>
+                    <div class="card p-6">
+                        <i data-feather="clock" class="w-12 h-12 text-blue-600 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2 text-gray-900">Audit Trail</h3>
+                        <p class="text-gray-600 text-sm">Complete timestamped records</p>
+                    </div>
+                    <div class="card p-6">
+                        <i data-feather="lock" class="w-12 h-12 text-blue-600 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2 text-gray-900">Secure Storage</h3>
+                        <p class="text-gray-600 text-sm">Encrypted and protected</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+            <h2 class="text-4xl font-extrabold mb-6 leading-snug text-gray-900">📣 Sleep Soundly—Compliance on Autopilot</h2>
+            <p class="text-xl mb-8 text-gray-700 leading-relaxed">
+                3,200+ UK employers already replaced spreadsheets with HR KYC™. Join them and turn right-to-work from risk to revenue.
+            </p>
+            <button class="btn-primary">
+                Start with PAYG
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 text-gray-600 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <span class="text-2xl font-bold text-gray-900">HR KYC™</span>
+                    <p class="mt-4">EmploymentKYC™ Right-to-Work Compliance</p>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">API Docs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-gray-900 transition-colors">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p>&copy; 2025 HR KYC™. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        feather.replace();
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
